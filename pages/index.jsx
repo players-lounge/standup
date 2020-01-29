@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import styled from 'styled-components'
 import randomNumber from 'utilities/random-number'
+
+const TIME_FOR_UPDATE = 60
 
 const team = [
   'Adam',
@@ -43,28 +45,49 @@ const movePerson = ({ teamState: { teamMembersToGo, teamMembersGone }, position 
   if (!teamMembersToGo[position]) return { teamMembersToGo, teamMembersGone }
   return {
     teamMembersToGo: teamMembersToGo.filter((_, index) => index !== position),
-    teamMembersGone: [...teamMembersGone, teamMembersToGo[position]]
+    teamMembersGone: [...teamMembersGone, teamMembersToGo[position]],
+    position: teamMembersToGo.length >= 1 && randomNumber({ max: teamMembersToGo.length - 1 })
   }
 }
 
 export default () => {
-  const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone })
+  const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length })})
+  const [time, setTime] = useState(undefined)
 
-  const position = randomNumber({ max: teamState.teamMembersToGo.length })
-  console.log(teamState)
+  const current = teamState.teamMembersToGo[teamState.position]
 
-  const current = teamState.teamMembersToGo[position]
+  useEffect(() => {
+    var timerID = time && setInterval(() => tick(), 1000)
+
+    return () => {
+      clearInterval(timerID)
+    }
+  })
+
+  const tick = () => {
+    setTime(time - 1)
+  }
+
+  const nextPerson = () => {
+    setTime(TIME_FOR_UPDATE)
+    setTeamState(movePerson({ teamState, position: teamState.position }))
+  }
 
   return (
     <div>
       <h1>Standup</h1>
-      <h2>{ current ? `Give your update: ${current}` : 'Stand up DONE!!!'}</h2>
+      <h2>{ time === undefined ? 'Get ready to start standup' : current ? `Give your update: ${current}` : 'Stand up DONE!!!'}</h2>
+
+      {time !== undefined && `time remaining: ${time}s`}
+
       <p>
-      Remaining Team Members: {teamState.teamMembersToGo.length}
+        Remaining Team Members: {teamState.teamMembersToGo.length}
       </p>
-      {teamState.teamMembersToGo.length !== 0 ? <button onClick={() => setTeamState(movePerson({ teamState, position }))}>
-      Next Person
-      </button> : null}
+
+      {time === undefined ? <button onClick={() => setTime(TIME_FOR_UPDATE)}>Start Standup</button> : null}
+
+      {time !== undefined && teamState.teamMembersToGo.length !== 0 ? <button onClick={nextPerson}>Next Person</button> : null}
+
       <ul>
         {team.map(member => teamState.teamMembersGone.includes(member) ? (<li key={member}>✅ {member}</li>) : (<li key={member}>{member}</li>))}
       </ul>

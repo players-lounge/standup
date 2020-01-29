@@ -1,6 +1,4 @@
-const randomNumber = ({
-  max
-}) => {
+const randomNumber = ({ max }) => {
   const base = Math.random()
 
   return Math.floor(base * max)
