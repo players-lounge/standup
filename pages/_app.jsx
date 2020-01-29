@@ -1,10 +1,11 @@
 import App from 'next/app'
 import React from 'react'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider, createGlobalStyle } from 'styled-components'
+import globalCss from 'utilities/global-css'
 
 const theme = {
   colors: {
-    background: '#000000',
+    background: '#fff',
     primary: '#0070f3',
   },
 }
@@ -21,9 +22,17 @@ class AppWrapper extends App {
   }
 
   render () {
+    const GlobalCSS = createGlobalStyle`
+      ${globalCss}
+      body {
+        background-color: ${({ theme }) => theme.colors.background}
+      }
+    `
+
     const { Component, pageProps } = this.props
     return (
       <ThemeProvider theme={theme}>
+        <GlobalCSS />
         <Component {...pageProps} />
       </ThemeProvider>
     )
