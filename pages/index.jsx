@@ -32,15 +32,15 @@ const Title = styled.h1`
 const Background = styled.div`
   width: 100%;
   height: 100vh;
-  background-color: ${({theme}) => theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background};
   background-color: #FFF;
 `
 
-const teamMembersToGo = [...team];
-const teamMembersGone = [];
+const teamMembersToGo = [...team]
+const teamMembersGone = []
 
-const movePerson = ({state: {teamMembersToGo, teamMembersGone}, position }) => {
-  if (!teamMembersToGo[position]) return {teamMembersToGo, teamMembersGone}
+const movePerson = ({ teamState: { teamMembersToGo, teamMembersGone }, position }) => {
+  if (!teamMembersToGo[position]) return { teamMembersToGo, teamMembersGone }
   return {
     teamMembersToGo: teamMembersToGo.filter((_, index) => index !== position),
     teamMembersGone: [...teamMembersGone, teamMembersToGo[position]]
@@ -48,23 +48,26 @@ const movePerson = ({state: {teamMembersToGo, teamMembersGone}, position }) => {
 }
 
 export default () => {
+  const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone })
 
-  const [state, setState] = useState({teamMembersToGo, teamMembersGone});
+  const position = randomNumber({ max: teamState.teamMembersToGo.length })
+  console.log(teamState)
 
-  const position = randomNumber({max: state.teamMembersToGo.length})
-  console.log(state)
+  const current = teamState.teamMembersToGo[position]
 
   return (
-  <Background>
-    <Title>My page</Title>
-    <p>
-      Remaining Team Members: {state.teamMembersToGo.length}
-    </p>
-    {state.teamMembersToGo.length !== 0 ?<button onClick={() => setState(movePerson({state, position}))}>
-      Click me to move {state.teamMembersToGo[position]}
-    </button> : null}
-    <ul>
-      {team.map(member => state.teamMembersGone.includes(member) ? (<li key={member}>✅ {member}</li>) : (<li key={member}>{member}</li>))}
-    </ul>
-  </Background>
-)}
+    <div>
+      <h1>Standup</h1>
+      <h2>{ current ? `Give your update: ${current}` : 'Stand up DONE!!!'}</h2>
+      <p>
+      Remaining Team Members: {teamState.teamMembersToGo.length}
+      </p>
+      {teamState.teamMembersToGo.length !== 0 ? <button onClick={() => setTeamState(movePerson({ teamState, position }))}>
+      Next Person
+      </button> : null}
+      <ul>
+        {team.map(member => teamState.teamMembersGone.includes(member) ? (<li key={member}>✅ {member}</li>) : (<li key={member}>{member}</li>))}
+      </ul>
+    </div>
+  )
+}

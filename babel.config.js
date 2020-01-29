@@ -1,10 +1,10 @@
 module.exports = {
-  "presets": ["next/babel"],
-  "plugins": [
+  presets: ['next/babel'],
+  plugins: [
     [
-      "styled-components",
+      'styled-components',
       {
-        "ssr": true
+        ssr: true
       }
     ],
     [
