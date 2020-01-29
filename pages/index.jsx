@@ -78,7 +78,7 @@ export default () => {
       <h1>Standup</h1>
       <h2>{ time === undefined ? 'Get ready to start standup' : current ? `Give your update: ${current}` : 'Stand up DONE!!!'}</h2>
 
-      {time !== undefined && `time remaining: ${time}s`}
+      {time !== undefined && teamState.teamMembersToGo.length !== 0 && `time remaining: ${time}s`}
 
       <p>
         Remaining Team Members: {teamState.teamMembersToGo.length}
