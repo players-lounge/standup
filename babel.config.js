@@ -13,6 +13,7 @@ module.exports = {
         root: ['./'],
         alias: {
           utilities: './utilities',
+          layouts: './layouts',
           components: './components'
         }
       }

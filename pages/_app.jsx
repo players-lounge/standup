@@ -2,6 +2,7 @@ import App from 'next/app'
 import React from 'react'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import globalCss from 'utilities/global-css'
+import Center from 'layouts/Center'
 
 const theme = {
   colors: {
@@ -33,7 +34,9 @@ class AppWrapper extends App {
     return (
       <ThemeProvider theme={theme}>
         <GlobalCSS />
-        <Component {...pageProps} />
+        <Center>
+          <Component {...pageProps} />
+        </Center>
       </ThemeProvider>
     )
   }

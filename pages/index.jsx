@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react'
 import styled from 'styled-components'
 import randomNumber from 'utilities/random-number'
+import Stack from 'layouts/Stack'
 
 const TIME_FOR_UPDATE = 60
 
@@ -74,23 +75,26 @@ export default () => {
   }
 
   return (
-    <div>
+    <Stack>
       <h1>Standup</h1>
       <h2>{ time === undefined ? 'Get ready to start standup' : current ? `Give your update: ${current}` : 'Stand up DONE!!!'}</h2>
 
-      {time !== undefined && teamState.teamMembersToGo.length !== 0 && `time remaining: ${time}s`}
+      <p>
+        {(time !== undefined && teamState.teamMembersToGo.length !== 0) ? `time remaining: ${time}s` : ' _ '}
+      </p>
 
       <p>
         Remaining Team Members: {teamState.teamMembersToGo.length}
       </p>
 
-      {time === undefined ? <button onClick={() => setTime(TIME_FOR_UPDATE)}>Start Standup</button> : null}
-
-      {time !== undefined && teamState.teamMembersToGo.length !== 0 ? <button onClick={nextPerson}>Next Person</button> : null}
+      <p>
+        {time === undefined ? <button onClick={() => setTime(TIME_FOR_UPDATE)}>Start Standup</button> : ' '}
+        {time !== undefined && teamState.teamMembersToGo.length !== 0 ? <button onClick={nextPerson}>Next Person</button> : ' '}
+      </p>
 
       <ul>
         {team.map(member => teamState.teamMembersGone.includes(member) ? (<li key={member}>✅ {member}</li>) : (<li key={member}>{member}</li>))}
       </ul>
-    </div>
+    </Stack>
   )
 }
