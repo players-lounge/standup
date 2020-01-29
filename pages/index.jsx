@@ -36,11 +36,23 @@ const Background = styled.div`
   background-color: #FFF;
 `
 
+const teamMembersToGo = [...team];
+const teamMembersGone = [];
+
+const movePerson = ({state: {teamMembersToGo, teamMembersGone}, position }) => {
+  if (!teamMembersToGo[position]) return {teamMembersToGo, teamMembersGone}
+  return {
+    teamMembersToGo: teamMembersToGo.filter((_, index) => index !== position),
+    teamMembersGone: [...teamMembersGone, teamMembersToGo[position]]
+  }
+}
+
 export default () => {
-  const teamMembersToGo = team;
-  const teamMembersGone = ['Adam'];
 
   const [state, setState] = useState({teamMembersToGo, teamMembersGone});
+
+  const position = randomNumber({max: state.teamMembersToGo.length})
+  console.log(state)
 
   return (
   <Background>
@@ -48,11 +60,11 @@ export default () => {
     <p>
       Remaining Team Members: {state.teamMembersToGo.length}
     </p>
-    <button onClick={() => this.setState({ ...state })}>
-      Click me to move {state.teamMembersToGo[randomNumber({max: team.length})]}
-    </button>
+    {state.teamMembersToGo.length !== 0 ?<button onClick={() => setState(movePerson({state, position}))}>
+      Click me to move {state.teamMembersToGo[position]}
+    </button> : null}
     <ul>
-      {team.map(member => teamMembersGone.includes(member) ? (<li key={member}>✅ {member}</li>) : (<li key={member}>{member}</li>))}
+      {team.map(member => state.teamMembersGone.includes(member) ? (<li key={member}>✅ {member}</li>) : (<li key={member}>{member}</li>))}
     </ul>
   </Background>
 )}
