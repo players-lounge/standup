@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react'
 import styled from 'styled-components'
 import randomNumber from 'utilities/random-number'
 import Stack from 'layouts/Stack'
+import TeamList from 'components/TeamList'
 
 const TIME_FOR_UPDATE = 60
 
@@ -29,7 +30,6 @@ const team = [
 
 const Title = styled.h1`
   font-size: 50px;
-  color: ${({ theme }) => theme.colors.primary};
 `
 
 const Background = styled.div`
@@ -74,17 +74,21 @@ export default () => {
     setTeamState(movePerson({ teamState, position: teamState.position }))
   }
 
+  const StyledStrong = styled.strong`
+    font-weight: bold;
+  `
+
   const update = (current) => (
-    <>Give your update: <strong>{current}</strong></>
+    <>Give your update: <StyledStrong>{current}</StyledStrong></>
   )
 
   return (
     <Stack>
-      <h1>Standup</h1>
+      <Title>Standup</Title>
       <h2>{ time === undefined ? 'Get ready to start standup' : current ? update(current) : 'Stand up DONE!!!'}</h2>
 
       <p>
-        {(time !== undefined && teamState.teamMembersToGo.length !== 0) ? `time remaining: ${time}s` : ' _ '}
+        {(time !== undefined && teamState.teamMembersToGo.length !== 0) ? `Time remaining: ${time}s` : ' _ '}
       </p>
 
       <p>
@@ -96,9 +100,8 @@ export default () => {
         {time !== undefined && teamState.teamMembersToGo.length !== 0 ? <button onClick={nextPerson}>Next Person</button> : ' '}
       </p>
 
-      <ul>
-        {team.map(member => teamState.teamMembersGone.includes(member) ? (<li key={member}>✅ {member}</li>) : (<li key={member}>{member}</li>))}
-      </ul>
+      <TeamList inProgress={Boolean(time)} team={team} teamMembersGone={teamState.teamMembersGone} teamMembersToGo={teamState.teamMembersToGo} position={teamState.position} />
+
     </Stack>
   )
 }
