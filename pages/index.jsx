@@ -74,10 +74,14 @@ export default () => {
     setTeamState(movePerson({ teamState, position: teamState.position }))
   }
 
+  const update = (current) => (
+    <>Give your update: <strong>{current}</strong></>
+  )
+
   return (
     <Stack>
       <h1>Standup</h1>
-      <h2>{ time === undefined ? 'Get ready to start standup' : current ? `Give your update: ${current}` : 'Stand up DONE!!!'}</h2>
+      <h2>{ time === undefined ? 'Get ready to start standup' : current ? update(current) : 'Stand up DONE!!!'}</h2>
 
       <p>
         {(time !== undefined && teamState.teamMembersToGo.length !== 0) ? `time remaining: ${time}s` : ' _ '}

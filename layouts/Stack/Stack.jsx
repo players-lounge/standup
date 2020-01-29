@@ -8,8 +8,8 @@ const StyledStack = styled.div`
 } 
 
   ${({ theme, recursive }) => recursive
-    ? `* + * {margin-top: 2rem;}`
-    : `> * + * {margin-top: 2rem;}`
+    ? `* + * {margin-top: ${theme.spacing.base};}`
+    : `> * + * {margin-top: ${theme.spacing.base};}`
 }
 `
 

@@ -9,6 +9,9 @@ const theme = {
     background: '#fff',
     primary: '#0070f3',
   },
+  spacing: {
+    base: '1rem'
+  },
 }
 
 class AppWrapper extends App {
