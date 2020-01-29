@@ -7,8 +7,8 @@ const ActiveMemberLi = styled.li`
   background-color: lightgreen;
 `
 
-const nameLogic = ({ inProgress, teamMembersGone, teamMembersToGo, position, member }) => {
-  if (!inProgress) return (<li key={member}><Name name={`${member}`}/></li>)
+const nameLogic = ({ time, teamMembersGone, teamMembersToGo, position, member }) => {
+  if (time === undefined) return (<li key={member}><Name name={`${member}`}/></li>)
 
   if (teamMembersGone.includes(member)) return (<li key={member}><Name name={`✅ ${member}`}/></li>)
 
@@ -16,10 +16,10 @@ const nameLogic = ({ inProgress, teamMembersGone, teamMembersToGo, position, mem
   return (<li key={member}><Name name={`${member}`}/></li>)
 }
 
-const TeamList = ({ inProgress, team, teamMembersGone, teamMembersToGo, position}) => (
+const TeamList = ({ time, team, teamMembersGone, teamMembersToGo, position}) => (
   <ul>
     {team.map(member => nameLogic({
-      inProgress,
+      time,
       teamMembersGone,
       teamMembersToGo,
       position,

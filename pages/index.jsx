@@ -100,7 +100,7 @@ export default () => {
         {time !== undefined && teamState.teamMembersToGo.length !== 0 ? <button onClick={nextPerson}>Next Person</button> : ' '}
       </p>
 
-      <TeamList inProgress={Boolean(time)} team={team} teamMembersGone={teamState.teamMembersGone} teamMembersToGo={teamState.teamMembersToGo} position={teamState.position} />
+      <TeamList time={time} team={team} teamMembersGone={teamState.teamMembersGone} teamMembersToGo={teamState.teamMembersToGo} position={teamState.position} />
 
     </Stack>
   )
