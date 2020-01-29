@@ -1,0 +1,25 @@
+{
+  "name": "standup",
+  "version": "1.0.0",
+  "description": "A tool for keeping standup on time.",
+  "main": "index.js",
+  "repository": "git@github.com:benjaminkay93/standup.git",
+  "author": "benjaminkay93",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "^9.2.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "styled-components": "^5.0.0"
+  },
+  "devDependencies": {
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-styled-components": "^1.10.7"
+  }
+}
