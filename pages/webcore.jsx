@@ -101,7 +101,7 @@ export default () => {
 
   const averageTimePerPerson = teamState.teamMembersGone.length
     ? Math.floor(totalTime / teamState.teamMembersGone.length)
-    : totalTime
+    : 0
 
   const left = (
     <Stack>
