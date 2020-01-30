@@ -16,7 +16,7 @@ const DeafultCenter = styled.div`
   }
 `
 
-const Center = ({ children, intrinsicCenter = false, maxWidth = '80rem' }) => (
+const Center = ({ children, intrinsicCenter = false, maxWidth = '600px' }) => (
   <DeafultCenter intrinsicCenter={intrinsicCenter} maxWidth={maxWidth}>
     {children}
   </DeafultCenter>

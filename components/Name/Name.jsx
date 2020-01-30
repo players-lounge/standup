@@ -6,8 +6,8 @@ const StyledDiv = styled.div`
   border: 1px solid black;
 `
 
-const Name = ({ name }) => (
-  <StyledDiv>
+const Name = ({ name, className }) => (
+  <StyledDiv className={className}>
     {name}
   </StyledDiv>
 )

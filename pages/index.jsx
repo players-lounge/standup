@@ -32,13 +32,6 @@ const Title = styled.h1`
   font-size: 50px;
 `
 
-const Background = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-color: ${({ theme }) => theme.colors.background};
-  background-color: #FFF;
-`
-
 const teamMembersToGo = [...team]
 const teamMembersGone = []
 
@@ -54,6 +47,7 @@ const movePerson = ({ teamState: { teamMembersToGo, teamMembersGone }, position 
 export default () => {
   const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length })})
   const [time, setTime] = useState(undefined)
+  const [totalTime, setTotalTime] = useState(0)
 
   const current = teamState.teamMembersToGo[teamState.position]
 
@@ -66,6 +60,7 @@ export default () => {
   })
 
   const tick = () => {
+    setTotalTime(totalTime + 1)
     setTime(time - 1)
   }
 
@@ -88,11 +83,7 @@ export default () => {
       <h2>{ time === undefined ? 'Get ready to start standup' : current ? update(current) : 'Stand up DONE!!!'}</h2>
 
       <p>
-        {(time !== undefined && teamState.teamMembersToGo.length !== 0) ? `Time remaining: ${time}s` : ' _ '}
-      </p>
-
-      <p>
-        Remaining Team Members: {teamState.teamMembersToGo.length}
+        Remaining Team Members: {teamState.teamMembersToGo.length} {totalTime}
       </p>
 
       <p>
@@ -100,7 +91,13 @@ export default () => {
         {time !== undefined && teamState.teamMembersToGo.length !== 0 ? <button onClick={nextPerson}>Next Person</button> : ' '}
       </p>
 
-      <TeamList time={time} team={team} teamMembersGone={teamState.teamMembersGone} teamMembersToGo={teamState.teamMembersToGo} position={teamState.position} />
+      <TeamList
+        time={time}
+        team={team}
+        teamMembersGone={teamState.teamMembersGone}
+        teamMembersToGo={teamState.teamMembersToGo}
+        position={teamState.position}
+      />
 
     </Stack>
   )
