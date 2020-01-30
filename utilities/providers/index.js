@@ -10,6 +10,7 @@ const lightTheme = {
     border: '#000000',
     primary: '#000000',
     highlight: 'lightgreen',
+    antiHighlight: 'darkgreen',
   },
   spacing: {
     base: '1rem'
@@ -22,6 +23,7 @@ const darkTheme = {
     border: '#eeeeee',
     primary: '#eeeeee',
     highlight: 'darkgreen',
+    antiHighlight: 'lightgreen',
   },
   spacing: {
     base: '1rem'

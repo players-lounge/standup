@@ -13,8 +13,8 @@ const StyledStack = styled.div`
 }
 `
 
-const Stack = ({ children, recursive }) => (
-  <StyledStack recursive={recursive}>
+const Stack = ({ children, className, recursive }) => (
+  <StyledStack className={className} recursive={recursive}>
     {children.map((child, key) => <div key={key}>{child}</div>)}
   </StyledStack>
 )
