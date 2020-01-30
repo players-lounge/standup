@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import Paragraph from 'components/Paragraph'
 
 const StyledDiv = styled.div`
   padding: 0.5rem;
@@ -8,7 +9,9 @@ const StyledDiv = styled.div`
 
 const Name = ({ name, className }) => (
   <StyledDiv className={className}>
-    {name}
+    <Paragraph>
+      {name}
+    </Paragraph>
   </StyledDiv>
 )
 

@@ -6,9 +6,10 @@ import globalCss from 'utilities/global-css'
 
 const lightTheme = {
   colors: {
-    background: '#fff',
-    border: '#000',
-    primary: '#000',
+    background: '#ffffff',
+    border: '#000000',
+    primary: '#000000',
+    highlight: 'lightgreen',
   },
   spacing: {
     base: '1rem'
@@ -17,9 +18,10 @@ const lightTheme = {
 
 const darkTheme = {
   colors: {
-    background: '#000',
-    border: '#fff',
-    primary: '#fff',
+    background: '#000000',
+    border: '#eeeeee',
+    primary: '#eeeeee',
+    highlight: 'darkgreen',
   },
   spacing: {
     base: '1rem'

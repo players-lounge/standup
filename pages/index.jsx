@@ -6,6 +6,7 @@ import randomNumber from 'utilities/random-number'
 import Stack from 'layouts/Stack'
 import Sidebar from 'layouts/Sidebar'
 import TeamList from 'components/TeamList'
+import Paragraph from 'components/Paragraph'
 
 const team = [
   'Adam',
@@ -31,6 +32,7 @@ const team = [
 
 const Title = styled.h1`
   font-size: 50px;
+  color: ${({ theme }) => theme.colors.primary}
 `
 
 const StyledStrong = styled.strong`
@@ -109,8 +111,8 @@ export default () => {
             {lightFormat(fromUnixTime(totalTime), 'mm:ss')}
           </StyledStrong>
         </Title>
-        <p>Total Time Elapsed</p>
-        <p>Average Time per Person: {averageTimePerPerson}s</p>
+        <Paragraph>Total Time Elapsed</Paragraph>
+        <Paragraph>Average Time per Person: {averageTimePerPerson}s</Paragraph>
       </Stack>
     </RightWrapper>
   )
@@ -118,11 +120,11 @@ export default () => {
   const left = (
     <Stack>
       <Title>Standup</Title>
-      <h2>{ !timing ? 'Get ready to start standup' : current ? update(current) : 'Stand up DONE!!!'}</h2>
+      <Paragraph>{ !timing ? 'Get ready to start standup' : current ? update(current) : 'Stand up DONE!!!'}</Paragraph>
 
-      <p>
+      <Paragraph>
         Remaining Team Members: {teamState.teamMembersToGo.length}
-      </p>
+      </Paragraph>
 
     </Stack>
   )

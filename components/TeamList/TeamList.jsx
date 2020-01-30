@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Name from 'components/Name'
 
 const ActiveMemberLi = styled.li`
-  background-color: lightgreen;
+  background-color: ${({ theme }) => theme.colors.highlight};
   font-weight: bold;
   margin-bottom: 8px;
   margin-top: 8px;
