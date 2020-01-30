@@ -23,7 +23,7 @@ const nameLogic = ({ timing, teamMembersGone, teamMembersToGo, position, member 
   return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
 }
 
-const TeamList = ({ timing, team, teamMembersGone, teamMembersToGo, position}) => (
+const TeamList = ({ timing, team, teamMembersGone, teamMembersToGo, position }) => (
   <ul>
     {team.map(member => nameLogic({
       timing,

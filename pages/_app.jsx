@@ -1,18 +1,7 @@
 import App from 'next/app'
 import React from 'react'
-import { ThemeProvider, createGlobalStyle } from 'styled-components'
-import globalCss from 'utilities/global-css'
 import Center from 'layouts/Center'
-
-const theme = {
-  colors: {
-    background: '#fff',
-    primary: '#0070f3',
-  },
-  spacing: {
-    base: '1rem'
-  },
-}
+import Providers from 'utilities/providers'
 
 class AppWrapper extends App {
   static async getInitialProps ({ Component, ctx }) {
@@ -26,21 +15,14 @@ class AppWrapper extends App {
   }
 
   render () {
-    const GlobalCSS = createGlobalStyle`
-      ${globalCss}
-      body {
-        background-color: ${({ theme }) => theme.colors.background}
-      }
-    `
-
     const { Component, pageProps } = this.props
+
     return (
-      <ThemeProvider theme={theme}>
-        <GlobalCSS />
+      <Providers>
         <Center>
           <Component {...pageProps} />
         </Center>
-      </ThemeProvider>
+      </Providers>
     )
   }
 }

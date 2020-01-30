@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import lightFormat from 'date-fns/lightFormat'
 import fromUnixTime from 'date-fns/fromUnixTime'
 import styled from 'styled-components'
@@ -6,8 +6,6 @@ import randomNumber from 'utilities/random-number'
 import Stack from 'layouts/Stack'
 import Sidebar from 'layouts/Sidebar'
 import TeamList from 'components/TeamList'
-
-const TIME_FOR_UPDATE = 60
 
 const team = [
   'Adam',
@@ -47,6 +45,19 @@ const RightWrapper = styled.div`
   text-align: right;
 `
 
+const Button = styled.button`
+  background-color: ${({ theme }) => theme.colors.background};;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.primary};;
+  height: 3rem;
+  border: 1px solid ${({ theme }) => theme.colors.border};
+  outline: 0px;
+`
+
+const ButtonText = styled.p`
+  font-size: 1rem;
+`
+
 const teamMembersToGo = [...team]
 const teamMembersGone = []
 
@@ -68,7 +79,7 @@ const tick = ({ teamState, totalTime, setTotalTime }) => {
 }
 
 export default () => {
-  const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length })})
+  const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length }) })
   const [totalTime, setTotalTime] = useState(0)
   const [timing, startTiming] = useState(false)
 
@@ -86,19 +97,26 @@ export default () => {
     setTeamState(movePerson({ teamState, position: teamState.position }))
   }
 
+  const averageTimePerPerson = teamState.teamMembersGone.length
+    ? Math.floor(totalTime / teamState.teamMembersGone.length)
+    : totalTime
+
   const right = (
     <RightWrapper>
-      <Title>
-        <StyledStrong>
-          {lightFormat(fromUnixTime(totalTime), 'mm:ss')}
-        </StyledStrong>
-      </Title>
-      <p>Total Time Elapsed</p>
+      <Stack>
+        <Title>
+          <StyledStrong>
+            {lightFormat(fromUnixTime(totalTime), 'mm:ss')}
+          </StyledStrong>
+        </Title>
+        <p>Total Time Elapsed</p>
+        <p>Average Time per Person: {averageTimePerPerson}s</p>
+      </Stack>
     </RightWrapper>
   )
 
   const left = (
-    <>
+    <Stack>
       <Title>Standup</Title>
       <h2>{ !timing ? 'Get ready to start standup' : current ? update(current) : 'Stand up DONE!!!'}</h2>
 
@@ -106,16 +124,18 @@ export default () => {
         Remaining Team Members: {teamState.teamMembersToGo.length}
       </p>
 
-      <p>
-        {!timing ? <button onClick={() => startTiming(true)}>Start Standup</button> : ' '}
-        {timing && teamState.teamMembersToGo.length !== 0 ? <button onClick={nextPerson}>Next Person</button> : ' '}
-      </p>
-    </>
+    </Stack>
   )
 
   return (
     <Stack>
       <StyledSidebar left={left} right={right} sidebarOnRight/>
+
+      <>
+        {!timing ? <Button onClick={() => startTiming(true)}><ButtonText>Start Standup</ButtonText></Button> : ' '}
+        {timing && teamState.teamMembersToGo.length !== 0 ? <Button onClick={nextPerson}><ButtonText>Next Person</ButtonText></Button> : ' '}
+        {timing && teamState.teamMembersToGo.length === 0 ? <Button onClick={() => {}}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
+      </>
 
       <TeamList
         timing={timing}
