@@ -14,6 +14,13 @@ const StyledLi = styled.li`
   margin-top: 8px;
 `
 
+const StyledUl = styled.ul`
+  column-count: 2;
+  column-gap: 40px;
+  column-rule-style: solid;
+
+`
+
 const nameLogic = ({ timing, teamMembersGone, teamMembersToGo, position, member }) => {
   if (!timing) return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
 
@@ -24,7 +31,7 @@ const nameLogic = ({ timing, teamMembersGone, teamMembersToGo, position, member 
 }
 
 const TeamList = ({ timing, team, teamMembersGone, teamMembersToGo, position }) => (
-  <ul>
+  <StyledUl>
     {team.map(member => nameLogic({
       timing,
       teamMembersGone,
@@ -32,7 +39,7 @@ const TeamList = ({ timing, team, teamMembersGone, teamMembersToGo, position }) 
       position,
       member
     }))}
-  </ul>
+  </StyledUl>
 )
 
 export default TeamList
