@@ -14,8 +14,8 @@ const StyledLi = styled.li`
   margin-top: 8px;
 `
 
-const nameLogic = ({ time, teamMembersGone, teamMembersToGo, position, member }) => {
-  if (time === undefined) return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
+const nameLogic = ({ timing, teamMembersGone, teamMembersToGo, position, member }) => {
+  if (!timing) return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
 
   if (teamMembersGone.includes(member)) return (<StyledLi key={member}><Name name={`✅ ${member}`}/></StyledLi>)
 
@@ -23,10 +23,10 @@ const nameLogic = ({ time, teamMembersGone, teamMembersToGo, position, member })
   return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
 }
 
-const TeamList = ({ time, team, teamMembersGone, teamMembersToGo, position}) => (
+const TeamList = ({ timing, team, teamMembersGone, teamMembersToGo, position}) => (
   <ul>
     {team.map(member => nameLogic({
-      time,
+      timing,
       teamMembersGone,
       teamMembersToGo,
       position,
