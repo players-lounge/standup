@@ -6,12 +6,12 @@ const ActiveMemberLi = styled.li`
   background-color: ${({ theme }) => theme.colors.highlight};
   font-weight: bold;
   margin-bottom: 8px;
-  margin-top: 8px;
+  break-inside: avoid;
 `
 
 const StyledLi = styled.li`
   margin-bottom: 8px;
-  margin-top: 8px;
+  break-inside: avoid;
 `
 
 const StyledUl = styled.ul`

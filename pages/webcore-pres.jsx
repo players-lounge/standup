@@ -9,7 +9,6 @@ import TeamList from 'components/TeamList'
 import Paragraph from 'components/Paragraph'
 
 const team = [
-  'Adam',
   'Abigail',
   'Andrew',
   'Ben',
