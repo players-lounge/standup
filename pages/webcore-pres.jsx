@@ -12,6 +12,7 @@ const team = [
   'Abigail',
   'Andrew',
   'Ben',
+  'Callum',
   'Carlos',
   'Dom',
   'Edwina',
