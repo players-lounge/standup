@@ -19,7 +19,6 @@ const team = [
   'Josh',
   'Keith',
   'Matt C',
-  'Matt L',
   'Mike',
   '🏖 Pete',
   'Rich',
