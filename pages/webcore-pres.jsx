@@ -14,20 +14,18 @@ const team = [
   'Callum',
   'Carlos',
   'Dom',
-  '🏖 Edwina',
   'Jacob',
   'Joe',
-  'Johnathan',
   'Josh',
   'Keith',
   'Matt C',
   'Matt L',
   'Mike',
-  'Pete',
+  '🏖 Pete',
   'Rich',
   'Si',
   'Sophie',
-  'Tim',
+  '🏖 Tim',
 ]
 
 const Title = styled.h1`

@@ -7,21 +7,7 @@ const StyledDiv = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.border};
 `
 
-const AustrailianDiv = styled.div`
-  padding: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.colors.border};
-  transform: rotate(180deg);
-`
-
-const Name = ({ name, className }) => name === 'Dom' || name === '✅ Dom'
-  ? (
-    <AustrailianDiv className={className}>
-      <Paragraph>
-        {name}
-      </Paragraph>
-    </AustrailianDiv>
-  )
-  : (
+const Name = ({ name, className }) => (
     <StyledDiv className={className}>
       <Paragraph>
         {name}
