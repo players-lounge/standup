@@ -23,7 +23,7 @@ const team = [
   'Keith M',
   'Matt C',
   'Mike',
-  '🏖 Pete',
+  'Pete',
   'Rich',
   'Si',
   'Sophie',
