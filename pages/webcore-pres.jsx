@@ -10,10 +10,10 @@ import Paragraph from 'components/Paragraph'
 
 const team = [
   'Abigail',
-  'Ben',
+  'Ben (8am-4pm)',
   'Callum',
   'Carlos',
-  'Dom',
+  'Dom the legend',
   'Edwina',
   'Jacob',
   'Joe',
@@ -24,7 +24,7 @@ const team = [
   'Matt C',
   'Mike',
   'Pete',
-  'Rich',
+  'Rich ☹️',
   'Si',
   'Sophie',
   'Tim',
