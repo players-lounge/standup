@@ -19,7 +19,7 @@ class AppWrapper extends App {
 
     return (
       <Providers>
-        <Center>
+        <Center maxWidth="1080px">
           <Component {...pageProps} />
         </Center>
       </Providers>

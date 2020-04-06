@@ -145,6 +145,8 @@ export default () => {
         position={teamState.position}
       />
 
+      <iframe src="https://jira.dev.bbc.co.uk/secure/RapidBoard.jspa?rapidView=10532&view=detail" width="100%" height="600px"/> 
+
     </Stack>
   )
 }

@@ -15,7 +15,7 @@ const StyledLi = styled.li`
 `
 
 const StyledUl = styled.ul`
-  column-count: 2;
+  column-count: 3;
   column-gap: 40px;
   column-rule-style: solid;
 
