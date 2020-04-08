@@ -13,6 +13,7 @@ const team = [
   'Ben (8am-4pm)',
   'Callum',
   'Carlos',
+  'Dave',
   'Dom \'not\' the legend',
   'Edwina',
   'Jacob',
@@ -145,7 +146,7 @@ export default () => {
         position={teamState.position}
       />
 
-      <iframe src="https://jira.dev.bbc.co.uk/secure/RapidBoard.jspa?rapidView=10532&view=detail" width="100%" height="600px"/> 
+      <iframe src="https://jira.dev.bbc.co.uk/secure/RapidBoard.jspa?rapidView=10532&view=detail" width="100%" height="600px"/>
 
     </Stack>
   )
