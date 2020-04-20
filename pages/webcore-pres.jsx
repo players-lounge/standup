@@ -11,7 +11,6 @@ import Paragraph from 'components/Paragraph'
 const team = [
   'Abigail',
   'Ben (8am-4pm)',
-  'Callum',
   'Carlos',
   'Dave',
   'Dom \'not\' the legend',
