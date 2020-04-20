@@ -8,8 +8,8 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "dev": "next",
-    "build": "next build",
+    "dev": "rm -rf .next && next",
+    "build": "rm -rf .next && next build",
     "start": "next start"
   },
   "dependencies": {
