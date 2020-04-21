@@ -132,7 +132,7 @@ export default () => {
   const dropPersonOnDay = () => {
     const outOfOfficeRota = {
       1: ['Abigail'], // Monday
-      2: ['Pete'],
+      2: [],
       3: [],
       4: [],
       5: []
@@ -186,15 +186,15 @@ export default () => {
 
   const thanosButton = (
     <Button onClick={() => reduceTeam(teamToDrop)}>
-      <ButtonText>{ 
-      `Thanos Mode (less than ${team.length - (teamToDrop.length + teamState.teamMembersGone.length)} on the call?)`
+      <ButtonText>{
+        `Thanos Mode (less than ${team.length - (teamToDrop.length + teamState.teamMembersGone.length)} on the call?)`
       }
       </ButtonText>
     </Button>
   )
 
   const resurrectButton = (
-    <Button onClick={() => expandTeam()}><ButtonText>Resurrect Mode</ButtonText></Button>
+    <Button onClick={() => expandTeam()}><ButtonText>Resurrect</ButtonText></Button>
   )
 
   return (
