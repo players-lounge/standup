@@ -12,6 +12,7 @@ const team = [
   'Abigail',
   'Ben (8am-4pm)',
   'Carlos',
+  'Callum',
   'Dave',
   'Dom \'not\' the legend',
   'Edwina',
@@ -176,6 +177,7 @@ export default () => {
     </RightWrapper>
   )
   const teamToDrop = [
+    'Callum',
     'Edwina',
     'Johnathan',
     'Keith M',
@@ -183,7 +185,12 @@ export default () => {
   ]
 
   const thanosButton = (
-    <Button onClick={() => reduceTeam(teamToDrop)}><ButtonText>Thanos Mode</ButtonText></Button>
+    <Button onClick={() => reduceTeam(teamToDrop)}>
+      <ButtonText>{ 
+      `Thanos Mode (less than ${team.length - (teamToDrop.length + teamState.teamMembersGone.length)} on the call?)`
+      }
+      </ButtonText>
+    </Button>
   )
 
   const resurrectButton = (
