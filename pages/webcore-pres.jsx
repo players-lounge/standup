@@ -101,11 +101,13 @@ export default () => {
   }
 
   const dropTeamMembers = (toDrop) => {
+    const allMembersGone = [...toDrop, ...teamState.teamMembersGone]
+    console.log(allMembersGone)
     const teamToKeep = teamState.teamMembersToGo.filter(member => {
-      return !toDrop.includes(member)
+      return !allMembersGone.includes(member)
     })
-
-    setTeamState({ teamMembersToGo: teamToKeep, teamMembersGone: toDrop, position: randomNumber({ max: teamToKeep.length }) })
+    console.log(teamToKeep)
+    setTeamState({ teamMembersToGo: teamToKeep, teamMembersGone: allMembersGone, position: randomNumber({ max: teamToKeep.length }) })
   }
 
   const reduceTeam = (toDrop) => {
