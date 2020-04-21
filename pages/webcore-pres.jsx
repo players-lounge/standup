@@ -126,21 +126,21 @@ export default () => {
     startTiming(false)
   }
 
-  const dropPersonOnDay = (person, day) => {
-    const dayNumber = {
-      monday: 1,
-      tuesday: 2,
-      wednesday: 3,
-      thursday: 4,
-      friday: 5
+  const dropPersonOnDay = () => {
+    const outOfOfficeRota = {
+      1: ['Abigail'], // Monday
+      2: ['Pete'],
+      3: [],
+      4: [],
+      5: []
     }
 
-    if (new Date().getDay() === dayNumber[day.toLowerCase()]) {
-      dropTeamMembers([person])
-    }
+    const teamOutOfOffice = outOfOfficeRota[new Date().getDay()]
+    dropTeamMembers(teamOutOfOffice)
   }
+
   if (!regularDrop) {
-    dropPersonOnDay('Pete', 'tuesday')
+    dropPersonOnDay()
     setRegularDrop(true)
   }
 
@@ -201,6 +201,8 @@ export default () => {
 
       <TeamList
         timing={timing}
+        isReducedTeam={isReducedTeam}
+        regularDrop={regularDrop}
         team={team}
         teamMembersGone={teamState.teamMembersGone}
         teamMembersToGo={teamState.teamMembersToGo}

@@ -21,8 +21,13 @@ const StyledUl = styled.ul`
 
 `
 
-const nameLogic = ({ timing, teamMembersGone, teamMembersToGo, position, member }) => {
-  if (!timing) return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
+const nameLogic = ({ timing, isReducedTeam, regularDrop, teamMembersGone, teamMembersToGo, position, member }) => {
+  if (!timing) {
+    if (isReducedTeam || regularDrop) {
+      if (teamMembersGone.includes(member)) return (<StyledLi key={member}><Name name={`✅ ${member}`}/></StyledLi>)
+    }
+    return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
+  }
 
   if (teamMembersGone.includes(member)) return (<StyledLi key={member}><Name name={`✅ ${member}`}/></StyledLi>)
 
@@ -30,10 +35,12 @@ const nameLogic = ({ timing, teamMembersGone, teamMembersToGo, position, member 
   return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
 }
 
-const TeamList = ({ timing, team, teamMembersGone, teamMembersToGo, position }) => (
+const TeamList = ({ timing, isReducedTeam, regularDrop, team, teamMembersGone, teamMembersToGo, position }) => (
   <StyledUl>
     {team.map(member => nameLogic({
       timing,
+      isReducedTeam,
+      regularDrop,
       teamMembersGone,
       teamMembersToGo,
       position,
