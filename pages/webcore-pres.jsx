@@ -52,6 +52,7 @@ const Button = styled.button`
   height: 3rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   outline: 0px;
+  margin: 5px;
 `
 
 const ButtonText = styled.p`
@@ -82,6 +83,8 @@ export default () => {
   const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length }) })
   const [totalTime, setTotalTime] = useState(0)
   const [timing, startTiming] = useState(false)
+  const [isReducedTeam, setReducedTeam] = useState(false)
+  const [regularDrop, setRegularDrop] = useState(false)
 
   const current = teamState.teamMembersToGo[teamState.position]
 
@@ -95,6 +98,50 @@ export default () => {
 
   const nextPerson = () => {
     setTeamState(movePerson({ teamState, position: teamState.position }))
+  }
+
+  const dropTeamMembers = (toDrop) => {
+    const teamToKeep = teamState.teamMembersToGo.filter(member => {
+      return !toDrop.includes(member)
+    })
+
+    setTeamState({ teamMembersToGo: teamToKeep, teamMembersGone: toDrop, position: randomNumber({ max: teamToKeep.length }) })
+  }
+
+  const reduceTeam = (toDrop) => {
+    dropTeamMembers(toDrop)
+    setReducedTeam(!isReducedTeam)
+  }
+
+  const expandTeam = () => {
+    resetTeam()
+    setReducedTeam(!isReducedTeam)
+  }
+
+  const resetTeam = () => {
+    setTeamState({ teamMembersToGo: [...team], teamMembersGone: [], position: randomNumber({ max: team.length }) })
+    setRegularDrop(false)
+    setReducedTeam(false)
+    setTotalTime(0)
+    startTiming(false)
+  }
+
+  const dropPersonOnDay = (person, day) => {
+    const dayNumber = {
+      monday: 1,
+      tuesday: 2,
+      wednesday: 3,
+      thursday: 4,
+      friday: 5
+    }
+
+    if (new Date().getDay() === dayNumber[day.toLowerCase()]) {
+      dropTeamMembers([person])
+    }
+  }
+  if (!regularDrop) {
+    dropPersonOnDay('Pete', 'tuesday')
+    setRegularDrop(true)
   }
 
   const averageTimePerPerson = teamState.teamMembersGone.length
@@ -126,6 +173,20 @@ export default () => {
       </Stack>
     </RightWrapper>
   )
+  const teamToDrop = [
+    'Edwina',
+    'Johnathan',
+    'Keith M',
+    'Mike'
+  ]
+
+  const thanosButton = (
+    <Button onClick={() => reduceTeam(teamToDrop)}><ButtonText>Thanos Mode</ButtonText></Button>
+  )
+
+  const resurrectButton = (
+    <Button onClick={() => expandTeam()}><ButtonText>Resurrect Mode</ButtonText></Button>
+  )
 
   return (
     <Stack>
@@ -134,7 +195,8 @@ export default () => {
       <>
         {!timing ? <Button onClick={() => startTiming(true)}><ButtonText>Start Standup</ButtonText></Button> : ' '}
         {timing && teamState.teamMembersToGo.length !== 0 ? <Button onClick={nextPerson}><ButtonText>Next Person</ButtonText></Button> : ' '}
-        {timing && teamState.teamMembersToGo.length === 0 ? <Button onClick={() => {}}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
+        {timing && teamState.teamMembersToGo.length === 0 ? <Button onClick={() => resetTeam()}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
+        {isReducedTeam ? resurrectButton : thanosButton }
       </>
 
       <TeamList
@@ -144,8 +206,6 @@ export default () => {
         teamMembersToGo={teamState.teamMembersToGo}
         position={teamState.position}
       />
-
-      <iframe src="https://jira.dev.bbc.co.uk/secure/RapidBoard.jspa?rapidView=10532&view=detail" width="100%" height="600px"/>
 
     </Stack>
   )
