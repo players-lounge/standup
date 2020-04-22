@@ -84,7 +84,7 @@ export default () => {
   const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length }) })
   const [totalTime, setTotalTime] = useState(0)
   const [timing, startTiming] = useState(false)
-  const [isReducedTeam, setReducedTeam] = useState(false)
+  const [onlyPresLayerTeam, setOnlyPresLayerTeam] = useState(false)
   const [regularDrop, setRegularDrop] = useState(false)
 
   const current = teamState.teamMembersToGo[teamState.position]
@@ -102,34 +102,34 @@ export default () => {
   }
 
   const dropTeamMembers = (toDrop) => {
-    const allMembersGone = [...toDrop, ...teamState.teamMembersGone]
-    console.log(allMembersGone)
-    const teamToKeep = teamState.teamMembersToGo.filter(member => {
-      return !allMembersGone.includes(member)
+    const teamMembersGone = [...toDrop, ...teamState.teamMembersGone]
+
+    const teamMembersToGo = teamState.teamMembersToGo.filter(member => {
+      return !teamMembersGone.includes(member)
     })
-    console.log(teamToKeep)
-    setTeamState({ teamMembersToGo: teamToKeep, teamMembersGone: allMembersGone, position: randomNumber({ max: teamToKeep.length }) })
-  }
 
-  const reduceTeam = (toDrop) => {
-    dropTeamMembers(toDrop)
-    setReducedTeam(!isReducedTeam)
-  }
-
-  const expandTeam = () => {
-    resetTeam()
-    setReducedTeam(!isReducedTeam)
+    setTeamState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length }) })
   }
 
   const resetTeam = () => {
     setTeamState({ teamMembersToGo: [...team], teamMembersGone: [], position: randomNumber({ max: team.length }) })
     setRegularDrop(false)
-    setReducedTeam(false)
+    setOnlyPresLayerTeam(false)
     setTotalTime(0)
     startTiming(false)
   }
 
-  const dropPersonOnDay = () => {
+  const reduceTeam = (toDrop) => {
+    dropTeamMembers(toDrop)
+    setOnlyPresLayerTeam(true)
+  }
+
+  const expandTeam = () => {
+    resetTeam()
+    setOnlyPresLayerTeam(false)
+  }
+
+  const regularOutOfOffice = () => {
     const outOfOfficeRota = {
       1: ['Abigail'], // Monday
       2: [],
@@ -138,12 +138,12 @@ export default () => {
       5: []
     }
 
-    const teamOutOfOffice = outOfOfficeRota[new Date().getDay()]
-    dropTeamMembers(teamOutOfOffice)
+    const outOfOffice = outOfOfficeRota[new Date().getDay()]
+    dropTeamMembers(outOfOffice)
   }
 
   if (!regularDrop) {
-    dropPersonOnDay()
+    regularOutOfOffice()
     setRegularDrop(true)
   }
 
@@ -176,6 +176,7 @@ export default () => {
       </Stack>
     </RightWrapper>
   )
+
   const teamToDrop = [
     'Callum',
     'Edwina',
@@ -187,7 +188,7 @@ export default () => {
   const thanosButton = (
     <Button onClick={() => reduceTeam(teamToDrop)}>
       <ButtonText>{
-        `Thanos Mode (less than ${team.length - (teamToDrop.length + teamState.teamMembersGone.length)} on the call?)`
+        `Thanos Mode (less than ${team.length + 1 - (teamToDrop.length + teamState.teamMembersGone.length)} on the call?)`
       }
       </ButtonText>
     </Button>
@@ -205,13 +206,12 @@ export default () => {
         {!timing ? <Button onClick={() => startTiming(true)}><ButtonText>Start Standup</ButtonText></Button> : ' '}
         {timing && teamState.teamMembersToGo.length !== 0 ? <Button onClick={nextPerson}><ButtonText>Next Person</ButtonText></Button> : ' '}
         {timing && teamState.teamMembersToGo.length === 0 ? <Button onClick={() => resetTeam()}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
-        {isReducedTeam ? resurrectButton : thanosButton }
+        {onlyPresLayerTeam ? resurrectButton : thanosButton }
       </>
 
       <TeamList
         timing={timing}
-        isReducedTeam={isReducedTeam}
-        regularDrop={regularDrop}
+        isReducedTeam={onlyPresLayerTeam || regularDrop}
         team={team}
         teamMembersGone={teamState.teamMembersGone}
         teamMembersToGo={teamState.teamMembersToGo}
