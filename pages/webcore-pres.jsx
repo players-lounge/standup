@@ -66,7 +66,6 @@ const Button = styled.button`
   height: 3rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   outline: 0px;
-  margin: 5px;
 
   :hover{
     text-decoration: underline;
@@ -217,8 +216,9 @@ export default () => {
         {!timing ? <Button onClick={() => startTiming(true)}><ButtonText>Start Standup</ButtonText></Button> : ' '}
         {timing && teamState.teamMembersToGo.length !== 0 ? <Button onClick={nextPerson}><ButtonText>Next Person</ButtonText></Button> : ' '}
         {timing && teamState.teamMembersToGo.length === 0 ? <Button onClick={() => resetTeam()}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
-        {onlyPresLayerTeam ? resurrectButton : thanosButton }
       </>
+
+      {onlyPresLayerTeam ? resurrectButton : thanosButton }
 
       <TeamList
         timing={timing}
