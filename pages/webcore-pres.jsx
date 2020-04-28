@@ -12,6 +12,7 @@ const team = [
   'Abigail',
   'Ben (8am-4pm)',
   'Carlos',
+  'Callum',
   'Dave',
   '💀 (Dom)',
   'Edwina',
@@ -52,6 +53,7 @@ const Button = styled.button`
   height: 3rem;
   border: 1px solid ${({ theme }) => theme.colors.border};
   outline: 0px;
+  margin: 5px;
 `
 
 const ButtonText = styled.p`
@@ -82,6 +84,8 @@ export default () => {
   const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length }) })
   const [totalTime, setTotalTime] = useState(0)
   const [timing, startTiming] = useState(false)
+  const [onlyPresLayerTeam, setOnlyPresLayerTeam] = useState(false)
+  const [regularDrop, setRegularDrop] = useState(false)
 
   const current = teamState.teamMembersToGo[teamState.position]
 
@@ -95,6 +99,52 @@ export default () => {
 
   const nextPerson = () => {
     setTeamState(movePerson({ teamState, position: teamState.position }))
+  }
+
+  const dropTeamMembers = (toDrop) => {
+    const teamMembersGone = [...toDrop, ...teamState.teamMembersGone]
+
+    const teamMembersToGo = teamState.teamMembersToGo.filter(member => {
+      return !teamMembersGone.includes(member)
+    })
+
+    setTeamState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length }) })
+  }
+
+  const resetTeam = () => {
+    setTeamState({ teamMembersToGo: [...team], teamMembersGone: [], position: randomNumber({ max: team.length }) })
+    setRegularDrop(false)
+    setOnlyPresLayerTeam(false)
+    setTotalTime(0)
+    startTiming(false)
+  }
+
+  const reduceTeam = (toDrop) => {
+    dropTeamMembers(toDrop)
+    setOnlyPresLayerTeam(true)
+  }
+
+  const expandTeam = () => {
+    resetTeam()
+    setOnlyPresLayerTeam(false)
+  }
+
+  const regularOutOfOffice = () => {
+    const outOfOfficeRota = {
+      1: ['Abigail'], // Monday
+      2: [],
+      3: [],
+      4: [],
+      5: []
+    }
+
+    const outOfOffice = outOfOfficeRota[new Date().getDay()]
+    dropTeamMembers(outOfOffice)
+  }
+
+  if (!regularDrop) {
+    regularOutOfOffice()
+    setRegularDrop(true)
   }
 
   const averageTimePerPerson = teamState.teamMembersGone.length
@@ -127,6 +177,27 @@ export default () => {
     </RightWrapper>
   )
 
+  const teamToDrop = [
+    'Callum',
+    'Edwina',
+    'Johnathan',
+    'Keith M',
+    'Mike'
+  ]
+
+  const thanosButton = (
+    <Button onClick={() => reduceTeam(teamToDrop)}>
+      <ButtonText>{
+        `Thanos Mode (less than ${team.length + 1 - (teamToDrop.length + teamState.teamMembersGone.length)} on the call?)`
+      }
+      </ButtonText>
+    </Button>
+  )
+
+  const resurrectButton = (
+    <Button onClick={() => expandTeam()}><ButtonText>Resurrect</ButtonText></Button>
+  )
+
   return (
     <Stack>
       <StyledSidebar left={left} right={right} sidebarOnRight/>
@@ -134,18 +205,18 @@ export default () => {
       <>
         {!timing ? <Button onClick={() => startTiming(true)}><ButtonText>Start Standup</ButtonText></Button> : ' '}
         {timing && teamState.teamMembersToGo.length !== 0 ? <Button onClick={nextPerson}><ButtonText>Next Person</ButtonText></Button> : ' '}
-        {timing && teamState.teamMembersToGo.length === 0 ? <Button onClick={() => {}}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
+        {timing && teamState.teamMembersToGo.length === 0 ? <Button onClick={() => resetTeam()}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
+        {onlyPresLayerTeam ? resurrectButton : thanosButton }
       </>
 
       <TeamList
         timing={timing}
+        isReducedTeam={onlyPresLayerTeam || regularDrop}
         team={team}
         teamMembersGone={teamState.teamMembersGone}
         teamMembersToGo={teamState.teamMembersToGo}
         position={teamState.position}
       />
-
-      <iframe src="https://jira.dev.bbc.co.uk/secure/RapidBoard.jspa?rapidView=10532&view=detail" width="100%" height="600px"/>
 
     </Stack>
   )
