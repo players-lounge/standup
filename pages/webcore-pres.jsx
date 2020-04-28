@@ -67,6 +67,12 @@ const Button = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.border};
   outline: 0px;
   margin: 5px;
+
+  :hover{
+    text-decoration: underline;
+    font-weight: 700;
+    cursor: pointer;
+  }
 `
 
 const ButtonText = styled.p`
