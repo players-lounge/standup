@@ -31,6 +31,16 @@ const team = [
   'Tim',
 ]
 
+const teamToDrop = [
+  'Callum',
+  'Caroline',
+  'Edwina',
+  'Graeme',
+  'Johnathan',
+  'Keith M',
+  'Mike'
+]
+
 const Title = styled.h1`
   font-size: 50px;
   color: ${({ theme }) => theme.colors.primary}
@@ -179,18 +189,10 @@ export default () => {
     </RightWrapper>
   )
 
-  const teamToDrop = [
-    'Callum',
-    'Edwina',
-    'Johnathan',
-    'Keith M',
-    'Mike'
-  ]
-
   const thanosButton = (
     <Button onClick={() => reduceTeam(teamToDrop)}>
       <ButtonText>{
-        `Thanos Mode (less than ${team.length + 1 - (teamToDrop.length + teamState.teamMembersGone.length)} on the call?)`
+        'Thanos Mode'
       }
       </ButtonText>
     </Button>
