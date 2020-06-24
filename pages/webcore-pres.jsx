@@ -28,7 +28,6 @@ const team = [
   'Pete',
   'Saral',
   'Si',
-  'Saral',
   'Sophie',
   'Tim',
 ]
