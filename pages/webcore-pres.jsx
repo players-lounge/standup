@@ -88,10 +88,10 @@ const StyledLi = styled.li`
 const ButtonText = styled.p`
   font-size: 1rem;
 `
-const nameLogic = ({ gone, position, standupPosition, member }) => {
-  if (position === standupPosition) return (<ActiveMemberLi key={member}><Name name={`${member}`}/></ActiveMemberLi>)
-  if (gone.includes(position)) return (<StyledLi key={member}><Name name={`✅ ${member}`}/></StyledLi>)
-  return (<StyledLi key={member}><Name name={`${member}`}/></StyledLi>)
+const nameLogic = ({ gone, position, toggleMember, standupPosition, member }) => {
+  if (position === standupPosition) return (<ActiveMemberLi key={member}><Name name={`${member}`} onClick={toggleMember}/></ActiveMemberLi>)
+  if (gone.includes(position)) return (<StyledLi key={member}><Name name={`✅ ${member}`} onClick={toggleMember}/></StyledLi>)
+  return (<StyledLi key={member}><Name name={`${member}`} onClick={toggleMember}/></StyledLi>)
 }
 
 const movePerson = ({ toGo, gone, standupPosition }) => ({
@@ -124,6 +124,22 @@ const Page = ({ team, gone = [], toGo }) => {
 
   const resetTeam = () => {
     setState({ toGo: team.map((_, index) => index), gone: [] })
+  }
+
+  const toggleMember = (memberPosition) => () => {
+    let toGo
+    let gone
+
+    if (state.toGo.includes(memberPosition)) {
+      gone = [...state.gone, memberPosition]
+      toGo = state.toGo.filter(val => val !== memberPosition)
+    } else {
+      toGo = [...state.toGo, memberPosition]
+      gone = state.gone.filter(val => val !== memberPosition)
+    }
+
+    console.log(state)
+    setState({ ...state, gone, toGo })
   }
 
   if (typeof window !== 'undefined') {
@@ -173,6 +189,7 @@ const Page = ({ team, gone = [], toGo }) => {
           gone: state.gone,
           standupPosition: state.standupPosition,
           position,
+          toggleMember: toggleMember(position),
           member
         }))}
       </TeamList>
