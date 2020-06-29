@@ -128,7 +128,6 @@ const Page = ({ team, gone = [], toGo }) => {
       gone = state.gone.filter(val => val !== memberPosition)
     }
 
-    console.log(state)
     setState({ ...state, gone, toGo })
   }
 
