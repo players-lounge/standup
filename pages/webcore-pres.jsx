@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import lightFormat from 'date-fns/lightFormat'
-import fromUnixTime from 'date-fns/fromUnixTime'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import randomNumber from 'utilities/random-number'
+import useCustomPageUrl from 'utilities/use-page-url'
 import Stack from 'layouts/Stack'
 import Sidebar from 'layouts/Sidebar'
 import TeamList from 'components/TeamList'
 import Paragraph from 'components/Paragraph'
+import Name from 'components/Name'
 
-const team = [
-  'Abigail',
+const teamData = [
+  'Abigael',
   'Ben (8am-4pm)',
   'Carlos',
   'Caroline',
-  'Dave',
+  'Dave L',
+  'Dave M',
   'Edwina',
   'Graeme',
   'Jacob',
@@ -29,17 +30,6 @@ const team = [
   'Saral',
   'Si',
   'Sophie',
-  'Tim',
-]
-
-const teamToDrop = [
-  'Callum',
-  'Caroline',
-  'Edwina',
-  'Graeme',
-  'Johnathan',
-  'Keith M',
-  'Mike'
 ]
 
 const Title = styled.h1`
@@ -73,109 +63,87 @@ const Button = styled.button`
     cursor: pointer;
   }
 `
+const ActiveMemberLi = styled.li`
+  background-color: ${({ theme }) => theme.colors.highlight};
+  font-weight: bold;
+  margin-bottom: 8px;
+  break-inside: avoid;
+`
+
+const StyledLi = styled.li`
+  margin-bottom: 8px;
+  break-inside: avoid;
+`
 
 const ButtonText = styled.p`
   font-size: 1rem;
 `
+const nameLogic = ({ gone, position, toggleMember, standupPosition, member }) => {
+  if (position === standupPosition) return (<ActiveMemberLi key={member}><Name name={`${member}`}/></ActiveMemberLi>)
+  if (gone.includes(position)) return (<StyledLi key={member}><Name name={`✅ ${member}`} onClick={toggleMember}/></StyledLi>)
+  return (<StyledLi key={member}><Name name={`${member}`} onClick={toggleMember}/></StyledLi>)
+}
 
-const teamMembersToGo = [...team]
-const teamMembersGone = []
+const movePerson = ({ toGo, gone, standupPosition }) => ({
+  toGo: toGo.filter((val) => val !== standupPosition),
+  gone: [...gone, standupPosition]
+})
 
-const movePerson = ({ teamState: { teamMembersToGo, teamMembersGone }, position }) => {
-  if (!teamMembersToGo[position]) return { teamMembersToGo, teamMembersGone }
-  return {
-    teamMembersToGo: teamMembersToGo.filter((_, index) => index !== position),
-    teamMembersGone: [...teamMembersGone, teamMembersToGo[position]],
-    position: teamMembersToGo.length >= 1 && randomNumber({ max: teamMembersToGo.length - 1 })
-  }
+const standup = ({ toGo }) => {
+  const index = randomNumber({ max: toGo.length })
+  return toGo[index]
 }
 
 const update = (current) => (
   <>Give your update: <StyledStrong>{current}</StyledStrong></>
 )
 
-const tick = ({ teamState, totalTime, setTotalTime }) => {
-  teamState.teamMembersToGo.length !== 0 && setTotalTime(totalTime + 1)
-}
+const Page = ({ team, gone = [], toGo }) => {
+  const [state, setState] = useState({ toGo, gone })
+  const [url, setUrl] = useState('')
 
-export default () => {
-  const [teamState, setTeamState] = useState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length }) })
-  const [totalTime, setTotalTime] = useState(0)
-  const [timing, startTiming] = useState(false)
-  const [onlyPresLayerTeam, setOnlyPresLayerTeam] = useState(false)
-  const [regularDrop, setRegularDrop] = useState(false)
-
-  const current = teamState.teamMembersToGo[teamState.position]
-
-  useEffect(() => {
-    var timerID = timing && setInterval(() => tick({ teamState, totalTime, setTotalTime }), 1000)
-
-    return () => {
-      clearInterval(timerID)
-    }
-  })
-
-  const nextPerson = () => {
-    setTeamState(movePerson({ teamState, position: teamState.position }))
+  const startStandup = () => {
+    setState({ ...state, active: true, standupPosition: standup({ toGo }) })
   }
 
-  const dropTeamMembers = (toDrop) => {
-    const teamMembersGone = [...toDrop, ...teamState.teamMembersGone]
-
-    const teamMembersToGo = teamState.teamMembersToGo.filter(member => {
-      return !teamMembersGone.includes(member)
-    })
-
-    setTeamState({ teamMembersToGo, teamMembersGone, position: randomNumber({ max: teamMembersToGo.length }) })
+  const nextPerson = () => {
+    const newState = movePerson(state)
+    const newStandupPosition = standup({ toGo: newState.toGo })
+    setState({ ...newState, active: true, standupPosition: newStandupPosition })
   }
 
   const resetTeam = () => {
-    setTeamState({ teamMembersToGo: [...team], teamMembersGone: [], position: randomNumber({ max: team.length }) })
-    setRegularDrop(false)
-    setOnlyPresLayerTeam(false)
-    setTotalTime(0)
-    startTiming(false)
+    setState({ toGo: team.map((_, index) => index), gone: [] })
   }
 
-  const reduceTeam = (toDrop) => {
-    dropTeamMembers(toDrop)
-    setOnlyPresLayerTeam(true)
-  }
+  const toggleMember = (memberPosition) => () => {
+    let toGo
+    let gone
 
-  const expandTeam = () => {
-    resetTeam()
-    setOnlyPresLayerTeam(false)
-  }
-
-  const regularOutOfOffice = () => {
-    const outOfOfficeRota = {
-      1: ['Abigail'], // Monday
-      2: [],
-      3: [],
-      4: [],
-      5: []
+    if (state.toGo.includes(memberPosition)) {
+      gone = [...state.gone, memberPosition]
+      toGo = state.toGo.filter(val => val !== memberPosition)
+    } else {
+      toGo = [...state.toGo, memberPosition]
+      gone = state.gone.filter(val => val !== memberPosition)
     }
 
-    const outOfOffice = outOfOfficeRota[new Date().getDay()]
-    dropTeamMembers(outOfOffice)
+    setState({ ...state, gone, toGo })
   }
 
-  if (!regularDrop) {
-    regularOutOfOffice()
-    setRegularDrop(true)
+  if (typeof window !== 'undefined') {
+    const newUrl = `${window.location.pathname}?gone=${JSON.stringify(state.gone)}`
+    if (url !== newUrl) setUrl(newUrl)
+    useCustomPageUrl(`${window.location.pathname}?gone=${JSON.stringify(state.gone)}`)
   }
-
-  const averageTimePerPerson = teamState.teamMembersGone.length
-    ? Math.floor(totalTime / teamState.teamMembersGone.length)
-    : 0
 
   const left = (
     <Stack>
       <Title>Standup</Title>
-      <Paragraph>{ !timing ? 'Get ready to start standup' : current ? update(current) : 'Stand up DONE!!!'}</Paragraph>
+      <Paragraph>{ update(team[state.standupPosition])}</Paragraph>
 
       <Paragraph>
-        Remaining Team Members: {teamState.teamMembersToGo.length}
+        Remaining Team Members: {state.toGo.length}
       </Paragraph>
 
     </Stack>
@@ -186,26 +154,13 @@ export default () => {
       <Stack>
         <Title>
           <StyledStrong>
-            {lightFormat(fromUnixTime(totalTime), 'mm:ss')}
+            NO Time
           </StyledStrong>
         </Title>
         <Paragraph>Total Time Elapsed</Paragraph>
-        <Paragraph>Average Time per Person: {averageTimePerPerson}s</Paragraph>
+        <Paragraph>Average Time per Person: </Paragraph>
       </Stack>
     </RightWrapper>
-  )
-
-  const thanosButton = (
-    <Button onClick={() => reduceTeam(teamToDrop)}>
-      <ButtonText>{
-        'Thanos Mode'
-      }
-      </ButtonText>
-    </Button>
-  )
-
-  const resurrectButton = (
-    <Button onClick={() => expandTeam()}><ButtonText>Resurrect</ButtonText></Button>
   )
 
   return (
@@ -213,22 +168,31 @@ export default () => {
       <StyledSidebar left={left} right={right} sidebarOnRight/>
 
       <>
-        {!timing ? <Button onClick={() => startTiming(true)}><ButtonText>Start Standup</ButtonText></Button> : ' '}
-        {timing && teamState.teamMembersToGo.length !== 0 ? <Button onClick={nextPerson}><ButtonText>Next Person</ButtonText></Button> : ' '}
-        {timing && teamState.teamMembersToGo.length === 0 ? <Button onClick={() => resetTeam()}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
+        {!state.active ? <Button onClick={startStandup}><ButtonText>Start Standup</ButtonText></Button> : ' '}
+        {state.active && state.toGo.length !== 0 ? <Button onClick={nextPerson}><ButtonText>Next Person</ButtonText></Button> : ' '}
+        {state.active && state.toGo.length === 0 ? <Button onClick={resetTeam}><ButtonText>Reset Standup</ButtonText></Button> : ' '}
       </>
 
-      {onlyPresLayerTeam ? resurrectButton : thanosButton }
-
-      <TeamList
-        timing={timing}
-        isReducedTeam={onlyPresLayerTeam || regularDrop}
-        team={team}
-        teamMembersGone={teamState.teamMembersGone}
-        teamMembersToGo={teamState.teamMembersToGo}
-        position={teamState.position}
-      />
+      <TeamList>
+        {team.map((member, position) => nameLogic({
+          gone: state.gone,
+          standupPosition: state.standupPosition,
+          position,
+          toggleMember: toggleMember(position),
+          member
+        }))}
+      </TeamList>
 
     </Stack>
   )
 }
+
+Page.getInitialProps = async (ctx) => {
+  const goneString = ctx.query.gone || '[]'
+  const goneObject = JSON.parse(goneString)
+  const gone = goneObject
+  const toGo = teamData.map((_, index) => index).filter((index) => !goneObject.includes(index))
+  return { team: teamData, gone, toGo }
+}
+
+export default Page
