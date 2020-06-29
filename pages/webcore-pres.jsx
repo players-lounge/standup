@@ -9,7 +9,7 @@ import Paragraph from 'components/Paragraph'
 import Name from 'components/Name'
 
 const teamData = [
-  'Abigail',
+  'Abigael',
   'Ben (8am-4pm)',
   'Carlos',
   'Caroline',
