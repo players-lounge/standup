@@ -13,7 +13,8 @@ const teamData = [
   'Ben (8am-4pm)',
   'Carlos',
   'Caroline',
-  'Dave',
+  'Dave L',
+  'Dave M',
   'Edwina',
   'Graeme',
   'Jacob',
@@ -29,18 +30,7 @@ const teamData = [
   'Saral',
   'Si',
   'Sophie',
-  'Tim',
 ]
-
-// const teamToDrop = [
-//   'Callum',
-//   'Caroline',
-//   'Edwina',
-//   'Graeme',
-//   'Johnathan',
-//   'Keith M',
-//   'Mike'
-// ]
 
 const Title = styled.h1`
   font-size: 50px;
