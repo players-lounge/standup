@@ -90,7 +90,7 @@ const ButtonText = styled.p`
 `
 const nameLogic = ({ gone, position, toggleMember, standupPosition, member }) => {
   if (position === standupPosition) return (<ActiveMemberLi key={member}><Name name={`${member}`} onClick={toggleMember}/></ActiveMemberLi>)
-  if (gone.includes(position)) return (<StyledLi key={member}><Name name={`✅ ${member}`} onClick={toggleMember}/></StyledLi>)
+  if (gone.includes(position)) return (<StyledLi key={member}><Name name={`✅ ${member}`}/></StyledLi>)
   return (<StyledLi key={member}><Name name={`${member}`} onClick={toggleMember}/></StyledLi>)
 }
 
