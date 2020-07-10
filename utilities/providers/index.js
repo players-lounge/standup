@@ -11,6 +11,7 @@ const lightTheme = {
     primary: '#000000',
     highlight: 'lightgreen',
     antiHighlight: 'darkgreen',
+    upNext: '#fff8cc'
   },
   spacing: {
     base: '1rem'
@@ -24,6 +25,7 @@ const darkTheme = {
     primary: '#eeeeee',
     highlight: 'darkgreen',
     antiHighlight: 'lightgreen',
+    upNext: 'gold'
   },
   spacing: {
     base: '1rem'
