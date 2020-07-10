@@ -11,6 +11,7 @@ const lightTheme = {
     primary: '#000000',
     highlight: 'lightgreen',
     antiHighlight: 'darkgreen',
+    upNext: 'gold'
   },
   spacing: {
     base: '1rem'
