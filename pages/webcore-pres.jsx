@@ -10,7 +10,6 @@ import Name from 'components/Name'
 
 const teamData = [
   'Abigael',
-  'Ben (8am-4pm)',
   'Carlos',
   'Caroline',
   'Dave L',
@@ -22,7 +21,6 @@ const teamData = [
   'Johnathan',
   'Josh',
   'Keith M',
-  'Lew',
   'Matt C',
   'Matt W',
   'Mike',
