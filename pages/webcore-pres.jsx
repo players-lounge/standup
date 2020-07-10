@@ -62,11 +62,17 @@ const Button = styled.button`
   }
 `
 const ActiveMemberLi = styled.li`
-  background-color: ${({ theme }) => theme.colors.highlight};
+  background-color: ${({ theme }) => theme.colors.upNext};
   font-weight: bold;
   margin-bottom: 8px;
   break-inside: avoid;
 `
+// const UpNextMemberLi = styled.li`
+//   background-color: ${({ theme }) => theme.colors.highlight};
+//   font-weight: bold;
+//   margin-bottom: 8px;
+//   break-inside: avoid;
+// `
 
 const StyledLi = styled.li`
   margin-bottom: 8px;
