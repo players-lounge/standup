@@ -117,7 +117,7 @@ const Page = ({ team, gone = [], toGo }) => {
 
   const nextPerson = () => {
     const newState = movePerson(state)
-    const newStandupPosition = state.nextPosition// standup({ toGo: newState.toGo })
+    const newStandupPosition = state.nextPosition
     const newNextPosition = standup({ toGo: newState.toGo, excluding: newState.toGo.indexOf(newStandupPosition) })
     setState({ ...newState, active: true, standupPosition: newStandupPosition, nextPosition: newNextPosition })
   }
