@@ -61,18 +61,20 @@ const Button = styled.button`
     cursor: pointer;
   }
 `
+
 const ActiveMemberLi = styled.li`
+  background-color: ${({ theme }) => theme.colors.highlight};
+  font-weight: bold;
+  margin-bottom: 8px;
+  break-inside: avoid;
+`
+
+const UpNextMemberLi = styled.li`
   background-color: ${({ theme }) => theme.colors.upNext};
   font-weight: bold;
   margin-bottom: 8px;
   break-inside: avoid;
 `
-// const UpNextMemberLi = styled.li`
-//   background-color: ${({ theme }) => theme.colors.highlight};
-//   font-weight: bold;
-//   margin-bottom: 8px;
-//   break-inside: avoid;
-// `
 
 const StyledLi = styled.li`
   margin-bottom: 8px;
@@ -82,8 +84,10 @@ const StyledLi = styled.li`
 const ButtonText = styled.p`
   font-size: 1rem;
 `
-const nameLogic = ({ gone, position, toggleMember, standupPosition, member }) => {
+
+const nameLogic = ({ gone, position, toggleMember, standupPosition, nextPosition, member }) => {
   if (position === standupPosition) return (<ActiveMemberLi key={member}><Name name={`${member}`}/></ActiveMemberLi>)
+  if (position === nextPosition) return (<UpNextMemberLi key={member}><Name name={`${member}`}/></UpNextMemberLi>)
   if (gone.includes(position)) return (<StyledLi key={member}><Name name={`✅ ${member}`} onClick={toggleMember}/></StyledLi>)
   return (<StyledLi key={member}><Name name={`${member}`} onClick={toggleMember}/></StyledLi>)
 }
@@ -93,8 +97,8 @@ const movePerson = ({ toGo, gone, standupPosition }) => ({
   gone: [...gone, standupPosition]
 })
 
-const standup = ({ toGo }) => {
-  const index = randomNumber({ max: toGo.length })
+const standup = ({ toGo, excluding }) => {
+  const index = randomNumber({ max: toGo.length, excluding: excluding })
   return toGo[index]
 }
 
@@ -107,13 +111,16 @@ const Page = ({ team, gone = [], toGo }) => {
   const [url, setUrl] = useState('')
 
   const startStandup = () => {
-    setState({ ...state, active: true, standupPosition: standup({ toGo }) })
+    const standupPosition = standup({ toGo })
+    setState({ ...state, active: true, standupPosition, nextPosition: standup({ toGo, excluding: standupPosition }) })
   }
 
   const nextPerson = () => {
     const newState = movePerson(state)
-    const newStandupPosition = standup({ toGo: newState.toGo })
-    setState({ ...newState, active: true, standupPosition: newStandupPosition })
+    const newStandupPosition = state.nextPosition// standup({ toGo: newState.toGo })
+    console.log('to go ', newState.toGo)
+    const newNextPosition = standup({ toGo: newState.toGo, excluding: newState.toGo.indexOf(newStandupPosition) })
+    setState({ ...newState, active: true, standupPosition: newStandupPosition, nextPosition: newNextPosition })
   }
 
   const resetTeam = () => {
@@ -181,6 +188,7 @@ const Page = ({ team, gone = [], toGo }) => {
         {team.map((member, position) => nameLogic({
           gone: state.gone,
           standupPosition: state.standupPosition,
+          nextPosition: state.nextPosition,
           position,
           toggleMember: toggleMember(position),
           member
