@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "rm -rf .next && next",
     "build": "rm -rf .next && next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint ./ --ext .js,.jsx"
   },
   "dependencies": {
     "date-fns": "^2.14.0",

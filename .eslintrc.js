@@ -5,9 +5,9 @@ module.exports = {
     'react/display-name': 0,
     'react/prop-types': 0,
   },
-  "settings": {
-    "react": {
-      "version": "16.12",
+  settings: {
+    react: {
+      version: '16.12',
     },
   },
 }
