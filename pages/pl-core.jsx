@@ -7,27 +7,23 @@ import Sidebar from 'layouts/Sidebar'
 import TeamList from 'components/TeamList'
 import Paragraph from 'components/Paragraph'
 import Name from 'components/Name'
+import Countdown from 'components/Countdown'
 
 const teamData = [
-  'Abigael',
-  'Carlos',
-  'Caroline',
-  'Dave L',
-  'Dave M',
-  'Edwina',
-  'Graeme',
-  'Jacob',
-  'Joe',
-  'Johnathan',
-  'Josh',
-  'Keith M',
-  'Matt C',
-  'Matt W',
-  'Mike',
-  'Pete',
-  'Saral',
-  'Si',
-  'Sophie',
+  'Adam',
+  'Adeel',
+  // 'Amery',
+  'Anoop',
+  'Ben',
+  'Chris',
+  'Dan',
+  'Duncan',
+  'Dustin',
+  'Jordan',
+  'Lucas',
+  'McKenzie',
+  'Richard',
+  'Tucker',
 ]
 
 const Title = styled.h1`
@@ -107,7 +103,7 @@ const update = (current) => (
 )
 
 const Page = ({ team, gone = [], toGo }) => {
-  const [state, setState] = useState({ toGo, gone })
+  const [state, setState] = useState({ toGo, gone, active: false })
   const [url, setUrl] = useState('')
 
   const startStandup = () => {
@@ -123,7 +119,7 @@ const Page = ({ team, gone = [], toGo }) => {
   }
 
   const resetTeam = () => {
-    setState({ toGo: team.map((_, index) => index), gone: [] })
+    setState({ active: false, toGo: team.map((_, index) => index), gone: [] })
   }
 
   const toggleMember = (memberPosition) => () => {
@@ -163,9 +159,7 @@ const Page = ({ team, gone = [], toGo }) => {
     <RightWrapper>
       <Stack>
         <Title>
-          <StyledStrong>
-            NO Time
-          </StyledStrong>
+          <Countdown active={state.active} activeUser={state.standupPosition} />
         </Title>
         <Paragraph>Total Time Elapsed</Paragraph>
         <Paragraph>Average Time per Person: </Paragraph>

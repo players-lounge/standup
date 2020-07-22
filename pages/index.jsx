@@ -34,7 +34,7 @@ export default () => {
         Links to active projects:
       </Paragraph>
       <Paragraph>
-        <StyledLink href="/webcore-pres">Webcore Pres</StyledLink>
+        <StyledLink href="/pl-core">Players&apos; Lounge Dev Core</StyledLink>
       </Paragraph>
     </StyledStack>
   )
