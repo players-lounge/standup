@@ -12,7 +12,7 @@ import Countdown from 'components/Countdown'
 const teamData = [
   'Adam',
   'Adeel',
-  // 'Amery',
+  'Amery',
   'Anoop',
   'Ben',
   'Chris',
