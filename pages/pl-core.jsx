@@ -21,9 +21,11 @@ const teamData = [
   'Dustin',
   'Jordan',
   'Lucas',
+  'Marcus',
   'McKenzie',
   'Richard',
   'Tucker',
+  'Weiyi'
 ]
 
 const Title = styled.h1`
