@@ -23,6 +23,7 @@ const teamData = [
   'Lucas',
   'Marcus',
   'McKenzie',
+  'Melody',
   'Richard',
   'Tucker',
   'Weiyi'
