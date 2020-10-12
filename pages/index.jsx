@@ -34,8 +34,8 @@ export default () => {
         Links to active projects:
       </Paragraph>
       <Paragraph>
-        <StyledLink href="/pl-core">Players&apos; Lounge Dev Core</StyledLink>
-        <StyledLink href="/pl-homescreen">Players&apos; Lounge Homescreen</StyledLink>
+        <StyledLink href="/pl-core">Players&apos; Lounge Dev Core</StyledLink><br />
+        <StyledLink href="/pl-homescreen">Players&apos; Lounge Homescreen</StyledLink><br />
         <StyledLink href="/pl-retention">Players&apos; Lounge Retention</StyledLink>
       </Paragraph>
     </StyledStack>

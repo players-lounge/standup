@@ -97,7 +97,7 @@ const standup = ({ toGo, excluding }) => {
 }
 
 const update = (current) => (
-  <>Give your update: <StyledStrong>{current}</StyledStrong></>
+  <>Give your update: <br /><StyledStrong>{current}</StyledStrong></>
 )
 
 const Page = ({ team, gone = [], toGo }) => {
@@ -143,7 +143,7 @@ const Page = ({ team, gone = [], toGo }) => {
 
   const left = (
     <Stack>
-      <Title>Standup</Title>
+      <Title>Homescreen Standup</Title>
       <Paragraph>{ update(team[state.standupPosition])}</Paragraph>
 
       <Paragraph>
