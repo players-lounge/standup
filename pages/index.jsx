@@ -35,6 +35,8 @@ export default () => {
       </Paragraph>
       <Paragraph>
         <StyledLink href="/pl-core">Players&apos; Lounge Dev Core</StyledLink>
+        <StyledLink href="/pl-homescreen">Players&apos; Lounge Homescreen</StyledLink>
+        <StyledLink href="/pl-retention">Players&apos; Lounge Retention</StyledLink>
       </Paragraph>
     </StyledStack>
   )
