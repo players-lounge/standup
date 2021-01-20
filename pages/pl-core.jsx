@@ -36,6 +36,7 @@ export default () => {
       <Paragraph>
         <StyledLink href="/pl-homescreen">Players&apos; Lounge Homescreen</StyledLink><br />
         <StyledLink href="/pl-retention">Players&apos; Lounge Retention</StyledLink>
+        <StyledLink href="/pl-eevee">Players&apos; Lounge Eevee</StyledLink>
       </Paragraph>
     </StyledStack>
   )
