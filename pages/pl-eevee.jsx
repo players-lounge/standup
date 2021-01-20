@@ -141,7 +141,7 @@ const Page = ({ team, gone = [], toGo }) => {
 
   const left = (
     <Stack>
-      <Title>Homescreen Standup</Title>
+      <Title>Eevee Standup</Title>
       <Paragraph>{ update(team[state.standupPosition])}</Paragraph>
 
       <Paragraph>
