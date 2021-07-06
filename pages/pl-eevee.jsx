@@ -10,6 +10,7 @@ import Name from 'components/Name'
 import Countdown from 'components/Countdown'
 
 const teamData = [
+  'Amrit',
   'Anoop',
   'Arman (QA)',
   'Ben',
