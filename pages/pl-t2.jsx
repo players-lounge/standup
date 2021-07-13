@@ -16,6 +16,7 @@ const teamData = [
   'Duncan',
   'Franklin',
   'Jacob',
+  'Jordan',
   'Kenneth',
   'Marcus',
   'Richard',
